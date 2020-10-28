@@ -1,11 +1,24 @@
 package com.j2rk.magiccanvas
 
-import androidx.appcompat.app.AppCompatActivity
+import android.opengl.GLSurfaceView
 import android.os.Bundle
+import android.view.View
+import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
+
 
 class MainActivity : AppCompatActivity() {
+
+    private var glSurfaceView: GLSurfaceView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        glSurfaceView = CustomGLSurface(this)
+        setContentView(R.layout.activity_main)
+        val layout = findViewById<View>(R.id.surfaceContainer) as RelativeLayout
+        val glParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)
+        layout.addView(glSurfaceView, glParams)
     }
 }
