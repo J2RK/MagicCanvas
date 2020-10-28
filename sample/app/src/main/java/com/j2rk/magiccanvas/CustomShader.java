@@ -2,7 +2,7 @@ package com.j2rk.magiccanvas;
 
 import android.opengl.GLES20;
 
-class CustomShader {
+public class CustomShader {
 
     public static final String vs_mouseSwipe =
             "uniform mat4 uMVPMatrix;" +

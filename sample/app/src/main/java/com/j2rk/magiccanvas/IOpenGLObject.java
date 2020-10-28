@@ -1,5 +1,5 @@
 package com.j2rk.magiccanvas;
 
-interface IOpenGLObject {
+public interface IOpenGLObject {
     void draw(float m[]);
 }
