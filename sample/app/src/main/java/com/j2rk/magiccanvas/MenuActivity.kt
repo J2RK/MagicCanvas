@@ -16,7 +16,7 @@ class MenuActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.butMain.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, MagicCanvasActivity::class.java))
         }
 
         binding.butSticker.setOnClickListener {

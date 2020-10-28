@@ -5,11 +5,9 @@ import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
 import android.view.MotionEvent
-import com.j2rk.magiccanvas.paint.PaintBase
-import com.j2rk.magiccanvas.paint.PaintType
-import com.j2rk.magiccanvas.paint.Pen
-import com.j2rk.magiccanvas.paint.SwipeMesh
+import com.j2rk.magiccanvas.paint.*
 import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.CopyOnWriteArrayList
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 import kotlin.collections.ArrayList
@@ -23,8 +21,8 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
     private val mtrxView = FloatArray(16)
     private val mtrxProjectionAndView = FloatArray(16)
 
-    var paints: ArrayList<PaintBase>? = null
-    var paintType = PaintType.SWIPE_MESH
+    var paints: CopyOnWriteArrayList<PaintBase>? = null // ArrayList 사용하면 ConcurrentModificationException 발생함
+    var paintType = PaintType.PEN
 
     private var mMousePoints: ConcurrentLinkedQueue<MousePoint>? = null
     private lateinit var mousePoints: FloatArray
@@ -60,6 +58,7 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
     private fun render(mtrxProjectionAndView: FloatArray) {
         // clear Screen and Depth Buffer, we have set the clear color as white.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+
         for (aMesh in paints!!) {
             aMesh.draw(mtrxProjectionAndView)
         }
@@ -102,7 +101,7 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
         Log.d(tag, "Surface Create started")
         surfaceLoaded = false
 
-        paints = ArrayList()
+        paints = CopyOnWriteArrayList()
         mMousePoints = ConcurrentLinkedQueue()
 
         // Set our shader program
@@ -128,7 +127,8 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
         when(paintType) {
             PaintType.PEN -> paints!!.add(Pen(screenHeight, surface))
             PaintType.SWIPE_MESH -> paints!!.add(SwipeMesh(screenHeight, surface))
-            PaintType.ERASER -> clearAll()
+            //PaintType.ERASER -> clearAll()
+            PaintType.ERASER -> paints!!.add(Eraser(screenHeight, surface))
         }
     }
 
@@ -146,15 +146,8 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
                     is Pen -> lastPaint.addPoint(meshPoint.point, ColorV4(0f, 0f, 1f, 1f))
                     is SwipeMesh -> {
                         lastPaint.addPoint(meshPoint.point, ColorV4(1f, 0f, 1f, 1f))
-//                        if (prevPointerPoint == null) {
-//                            meshPoint.color = ColorV4(1f, 0f, 1f, 1f)
-//                        } else {
-//                            val screenHypotenuse = hypot(screenWidth.toDouble(), screenHeight.toDouble()).toFloat()
-//                            meshPoint.color = MeshPoint.getDistanceColor(prevPointerPoint!!, meshPoint, screenHypotenuse)
-//                        }
-//                        lastPaint.addPoint(meshPoint)
-//                        prevPointerPoint = meshPoint
                     }
+                    is Eraser -> lastPaint.addPoint(meshPoint.point, ColorV4(1f, 1f, 1f, 1f))
                 }
             }
         }

@@ -3,14 +3,18 @@ package com.j2rk.magiccanvas
 import android.annotation.SuppressLint
 import android.content.Context
 import android.opengl.GLSurfaceView
+import android.util.AttributeSet
 import android.view.MotionEvent
+import com.j2rk.magiccanvas.paint.PaintType
 
-class CustomGLSurface(context: Context): GLSurfaceView(context) {
+class CustomGLSurface(context: Context?, attrs: AttributeSet?) : GLSurfaceView(context, attrs) {
 
     private val renderer: CustomGLRenderer
 
+
+
     init {
-        setEGLContextClientVersion(2);
+        setEGLContextClientVersion(2)
 
         // Set the Renderer for drawing on the GLSurfaceView
         renderer = CustomGLRenderer(this)
@@ -18,7 +22,15 @@ class CustomGLSurface(context: Context): GLSurfaceView(context) {
 
         // Render the view only when there is a change in the drawing data
         // Might need to change for the painting app
-        renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+        renderMode = RENDERMODE_CONTINUOUSLY
+    }
+
+    fun setPaintType(penType: PaintType) {
+        renderer.paintType = penType
+    }
+
+    fun clearAll() {
+        renderer.clearAll()
     }
 
     override fun onPause() {
