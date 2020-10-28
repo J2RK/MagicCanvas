@@ -84,3 +84,5 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 sample/app/.idea/workspace.xml
+sample/.idea/codeStyles/Project.xml
+sample/.idea/codeStyles/codeStyleConfig.xml
