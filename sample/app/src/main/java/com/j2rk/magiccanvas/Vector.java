@@ -60,4 +60,12 @@ public class Vector {
     public double dotProduct(Vector v1) {
         return this.x * v1.x + this.y * v1.y;
     }
+
+    // p1 -> p2
+    // Find Normalized perpendicular vector: Rotate +90 degrees
+    public static Vector calNorPerpV(Vector p1, Vector p2) {
+        Vector dir = sub(p2, p1);
+        Vector nDir = normalize(dir);
+        return new Vector(-1 * nDir.y, nDir.x);
+    }
 }
