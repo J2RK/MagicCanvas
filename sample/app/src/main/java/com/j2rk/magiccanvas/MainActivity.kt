@@ -9,34 +9,29 @@ import yuku.ambilwarna.AmbilWarnaDialog
 
 
 class MainActivity : AppCompatActivity() {
-    var view: MyPaintView? = null
+    lateinit var view: MyPaintView
     var tColor = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         view = MyPaintView(this)
         val container = findViewById<LinearLayout>(R.id.container)
-        val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.MATCH_PARENT
-        )
+        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
         container.addView(view, params)
-        val rBtn1 = findViewById<RadioButton>(R.id.radioButton)
-        val rBtn2 = findViewById<RadioButton>(R.id.radioButton2)
-        val rBtn3 = findViewById<RadioButton>(R.id.radioButton3)
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.radioButton -> view!!.setCap(0)
-                R.id.radioButton2 -> view!!.setCap(1)
-                R.id.radioButton3 -> view!!.setCap(2)
+                R.id.radioButton -> view.setCap(0)
+                R.id.radioButton2 -> view.setCap(1)
+                R.id.radioButton3 -> view.setCap(2)
             }
         }
-        val btn = findViewById<Button>(R.id.colorPickerButton)
-        val btn2 = findViewById<Button>(R.id.thickPickerButton)
-        btn.setOnClickListener { openColorPicker() }
-        btn2.setOnClickListener { show() }
+        val colorPickerButton = findViewById<Button>(R.id.colorPickerButton)
+        val thickPickerButton = findViewById<Button>(R.id.thickPickerButton)
+        colorPickerButton.setOnClickListener { openColorPicker() }
+        thickPickerButton.setOnClickListener { show() }
     }
 
     private fun show() {
@@ -46,8 +41,8 @@ class MainActivity : AppCompatActivity() {
             .setTitle("AlertDialog Title")
             .setMessage("굵기 입력")
             .setView(editText)
-            .setPositiveButton("입력") { dialog, which -> view!!.setStrokeWidth(editText.text.toString().toInt()) }
-            .setNegativeButton("취소") { dialog, which -> }
+            .setPositiveButton("입력") { dialog, which -> view.setStrokeWidth(editText.text.toString().toInt()) }
+            .setNegativeButton("취소") { dialog, which -> dialog.dismiss()}
             .show()
     }
 
@@ -55,8 +50,8 @@ class MainActivity : AppCompatActivity() {
         val colorPicker = AmbilWarnaDialog(this, tColor, object : AmbilWarnaDialog.OnAmbilWarnaListener {
                 override fun onCancel(dialog: AmbilWarnaDialog?) {}
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
-                    Toast.makeText(applicationContext, "" + tColor, Toast.LENGTH_LONG).show()
-                    view?.setColor(color)
+                    view.setColor(color)
+                    tColor = color
                 }
             })
         colorPicker.show()
