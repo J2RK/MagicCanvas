@@ -16,19 +16,19 @@ public abstract class MainModule {
 
     @Provides
     @ActivityScope
-    static ActivityMainBinding provideBinding(MainActivity activity){
+    static ActivityMainBinding provideBinding(MainActivity activity) {
         return DataBindingUtil.setContentView(activity, R.layout.activity_main);
     }
 
     @Provides
     @ActivityScope
-    static MainViewModel provideViewModel(MainActivity activity){
+    static MainViewModel provideViewModel(MainActivity activity) {
         return ViewModelProviders.of(activity).get(MainViewModel.class);
     }
 
     @Provides
     @ActivityScope
-    static MainAdapter provideAdapter(MainViewModel viewModel){
+    static MainAdapter provideAdapter(MainViewModel viewModel) {
         return new MainAdapter(viewModel.getMenus());
     }
 }

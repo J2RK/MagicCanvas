@@ -7,9 +7,8 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.collections.ArrayList
 
-abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface): IOpenGLObject {
+abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface) : IOpenGLObject {
 
     var meshPointQueue: ConcurrentLinkedQueue<MeshPoint> = ConcurrentLinkedQueue()
     var indices = IntArray(0)

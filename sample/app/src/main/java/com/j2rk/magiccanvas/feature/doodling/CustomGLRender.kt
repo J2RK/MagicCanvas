@@ -123,7 +123,7 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
     }
 
     fun processEventDown(event: MotionEvent) {
-        when(paintType) {
+        when (paintType) {
             PaintType.PEN -> paints!!.add(Pen(screenHeight, surface))
             PaintType.SWIPE_MESH -> paints!!.add(SwipeMesh(screenHeight, surface))
             //PaintType.ERASER -> clearAll()
@@ -137,8 +137,8 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
             if (event.findPointerIndex(0) != -1) {
                 val pointerIndex = event.findPointerIndex(0)
                 val meshPoint = MeshPoint(
-                    event.getX(pointerIndex).toDouble(),
-                    event.getY(pointerIndex).toDouble()
+                        event.getX(pointerIndex).toDouble(),
+                        event.getY(pointerIndex).toDouble()
                 )
 
                 when (val lastPaint = paints!!.last()) {

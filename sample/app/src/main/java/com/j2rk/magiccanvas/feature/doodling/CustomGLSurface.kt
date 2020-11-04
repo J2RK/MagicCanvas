@@ -12,7 +12,6 @@ class CustomGLSurface(context: Context?, attrs: AttributeSet?) : GLSurfaceView(c
     private val renderer: CustomGLRenderer
 
 
-
     init {
         setEGLContextClientVersion(2)
 

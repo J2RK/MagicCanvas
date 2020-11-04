@@ -3,9 +3,8 @@ package com.j2rk.magiccanvas.feature.doodling.paint
 import com.j2rk.magiccanvas.feature.doodling.CustomGLSurface
 import com.j2rk.magiccanvas.feature.doodling.MeshPoint
 import com.j2rk.magiccanvas.feature.doodling.Vector
-import kotlin.collections.ArrayList
 
-class Pen(screenHeight: Float, surface: CustomGLSurface) : PaintBase(screenHeight, surface){
+class Pen(screenHeight: Float, surface: CustomGLSurface) : PaintBase(screenHeight, surface) {
 
     override fun calPoints() {
         glSurface.queueEvent {
@@ -27,18 +26,18 @@ class Pen(screenHeight: Float, surface: CustomGLSurface) : PaintBase(screenHeigh
                         B = nextMeshPoint.point
                         val perpV = Vector.calNorPerpV(A, B)
                         C = MeshPoint(
-                            convertToGLCoords(
-                                Vector.add(B, Vector.scale(perpV, strokeThickness.toDouble()))
-                            ),
-                            nextMeshPoint.color,
-                            nextMeshPoint.age
+                                convertToGLCoords(
+                                        Vector.add(B, Vector.scale(perpV, strokeThickness.toDouble()))
+                                ),
+                                nextMeshPoint.color,
+                                nextMeshPoint.age
                         )
                         D = MeshPoint(
-                            convertToGLCoords(
-                                Vector.sub(B, Vector.scale(perpV, strokeThickness.toDouble()))
-                            ),
-                            nextMeshPoint.color,
-                            nextMeshPoint.age
+                                convertToGLCoords(
+                                        Vector.sub(B, Vector.scale(perpV, strokeThickness.toDouble()))
+                                ),
+                                nextMeshPoint.color,
+                                nextMeshPoint.age
                         )
                         segments.add(C)
                         segments.add(D)

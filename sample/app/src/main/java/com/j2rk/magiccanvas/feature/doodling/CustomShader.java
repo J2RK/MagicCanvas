@@ -36,7 +36,6 @@ public class CustomShader {
                     "gl_FragColor = texture2D(texture, textureCoordinate);" +
                     "}";
     public static int sp_mouse_swipe;
-    public static int sp_background;
 
     public static int loadShader(int type, String shaderCode){
 

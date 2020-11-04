@@ -1,6 +1,5 @@
 package com.j2rk.magiccanvas.feature.main;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -22,7 +21,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     @NonNull
     @Override
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d("jason", "onCreateViewHolder: " + items.size());
         return new MainViewHolder(ViewMainMenuBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 

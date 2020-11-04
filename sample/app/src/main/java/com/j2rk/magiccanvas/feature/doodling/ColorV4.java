@@ -19,5 +19,4 @@ public class ColorV4 {
                 A
         );
     }
-
 }

@@ -1,20 +1,12 @@
 package com.j2rk.magiccanvas.feature.doodling;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 public class Smoother {
     public static int iterations = 2;
     public static double simplifyTolerance = 35f;
     private ArrayList<MeshPoint> tmp = new ArrayList<>();
-
-    public static float linearInterpolation(float a, float b, float t) {
-        float out = (Math.abs(a - b) * t) + a;
-        Log.d("<^>", " " + a + " " + b + " " + t + " out: " + out);
-        return out;
-    }
 
     public void resolve(ArrayList<MeshPoint> input, ArrayList<MeshPoint> output) {
         output.clear();
@@ -71,8 +63,6 @@ public class Smoother {
         output.add(input.get(input.size() - 1));
     }
 
-
-
     //simple distance-based simplification
     //adapted from simplify.js
     public static void simplify(ArrayList<MeshPoint> points, double sqTolerance, ArrayList<MeshPoint> out) {
@@ -88,14 +78,10 @@ public class Smoother {
                 prevPoint = point;
             }
         }
-//        if (!prevPoint.equals(point)) {
-//            out.add(point);
-//        }
     }
 
     public static double distSq(MeshPoint p1, MeshPoint p2) {
         double dx = p1.point.x - p2.point.x, dy = p1.point.y - p2.point.y;
         return dx * dx + dy * dy;
     }
-
 }

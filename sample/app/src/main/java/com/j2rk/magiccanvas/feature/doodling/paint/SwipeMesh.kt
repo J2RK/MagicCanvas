@@ -34,14 +34,14 @@ class SwipeMesh(screenHeight: Float, surface: CustomGLSurface) : PaintBase(scree
                         B = nextMeshPoint.point
                         val perpV = Vector.calNorPerpV(A, B)
                         C = MeshPoint(
-                            convertToGLCoords(Vector.add(B, Vector.scale(perpV, strokeThickness * (i.toFloat() / out.size).toDouble()))),
-                            nextMeshPoint.color.gradientWhite(i.toFloat() / out.size),
-                            nextMeshPoint.age
+                                convertToGLCoords(Vector.add(B, Vector.scale(perpV, strokeThickness * (i.toFloat() / out.size).toDouble()))),
+                                nextMeshPoint.color.gradientWhite(i.toFloat() / out.size),
+                                nextMeshPoint.age
                         )
                         D = MeshPoint(
-                            convertToGLCoords(Vector.sub(B, Vector.scale(perpV, strokeThickness * (i.toFloat() / out.size).toDouble()))),
-                            nextMeshPoint.color.gradientWhite(i.toFloat() / out.size),
-                            nextMeshPoint.age
+                                convertToGLCoords(Vector.sub(B, Vector.scale(perpV, strokeThickness * (i.toFloat() / out.size).toDouble()))),
+                                nextMeshPoint.color.gradientWhite(i.toFloat() / out.size),
+                                nextMeshPoint.age
                         )
                         segments.add(C)
                         segments.add(D)
