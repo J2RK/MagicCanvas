@@ -84,6 +84,11 @@ class MyGLRenderer : GLSurfaceView.Renderer {
         this.width = width
         this.height = height
 
+        mCube?.let {
+            it.resolution[0] = width.toFloat()
+            it.resolution[1] = height.toFloat()
+        }
+
         x = (width / 2) * ratio
         y = (height / 2) * ratio
 
