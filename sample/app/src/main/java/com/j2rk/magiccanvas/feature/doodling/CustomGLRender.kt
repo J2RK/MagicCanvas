@@ -127,7 +127,7 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
             when (paintType) {
                 PaintType.PEN -> it.add(Pen(screenHeight, surface))
                 PaintType.MARKER -> it.add(Marker(screenHeight, surface))
-                PaintType.SWIPE_MESH -> it.add(SwipeMesh(screenHeight, surface))
+                PaintType.BRUSH -> it.add(Brush(screenHeight, surface))
                 PaintType.ERASER -> it.add(Eraser(screenHeight, surface))
             }
         }
@@ -146,9 +146,7 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
                 when (val lastPaint = paints!!.last()) {
                     is Pen -> lastPaint.addPoint(meshPoint.point, ColorV4(1f, 0f, 0f, 1f))
                     is Marker -> lastPaint.addPoint(meshPoint.point, ColorV4(0f, 0f, 1f, 1f))
-                    is SwipeMesh -> {
-                        lastPaint.addPoint(meshPoint.point, ColorV4(0f, 1f, 0f, 1f))
-                    }
+                    is Brush -> lastPaint.addPoint(meshPoint.point, ColorV4(0f, 1f, 0f, 1f))
                     is Eraser -> lastPaint.addPoint(meshPoint.point, ColorV4(1f, 1f, 1f, 1f))
                 }
             }

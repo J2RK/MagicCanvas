@@ -17,7 +17,7 @@ class MagicCanvasActivity : AppCompatActivity() {
 
         binding.penButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.PEN) }
         binding.markerButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.MARKER) }
-        binding.swipeMeshButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.SWIPE_MESH) }
+        binding.brushButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.BRUSH) }
         binding.eraserButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.ERASER) }
         binding.clearButton.setOnClickListener { binding.glSurface.clearAll() }
     }

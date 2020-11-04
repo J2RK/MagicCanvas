@@ -68,4 +68,9 @@ public class Vector {
         Vector nDir = normalize(dir);
         return new Vector(-1 * nDir.y, nDir.x);
     }
+
+    public static double dist(Vector p1, Vector p2) {
+        Vector v = sub(p1, p2);
+        return v.length();
+    }
 }
