@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MagicCanvasActivity">
+    tools:context=".feature.doodling.MagicCanvasActivity">
 
     <SeekBar
         android:id="@+id/sb_scale"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.j2rk.magiccanvas.sticker.MyGLSurfaceView
+    <com.j2rk.magiccanvas.feature.sticker.MyGLSurfaceView
         android:id="@+id/oglView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
