@@ -18,7 +18,7 @@ abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface
     var indexBuffer: IntBuffer = ByteBuffer.allocateDirect(0).asIntBuffer()
     var colorBuffer: FloatBuffer = ByteBuffer.allocateDirect(0).asFloatBuffer()
     var smoother = Smoother()
-    var strokeThickness = 40
+    var strokeThickness = 20
 
     abstract fun calPoints()
 
@@ -69,7 +69,7 @@ abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface
             colorArray[j] = segment.color.R
             colorArray[j + 1] = segment.color.G
             colorArray[j + 2] = segment.color.B
-            colorArray[j + 3] = 1f
+            colorArray[j + 3] = segment.color.A
             j += 4
         }
         val bb = ByteBuffer.allocateDirect(floatArray.size * 4)

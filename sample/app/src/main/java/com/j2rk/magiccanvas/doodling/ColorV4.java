@@ -19,4 +19,9 @@ public class ColorV4 {
                 A
         );
     }
+
+    public void setAlpha(float a) {
+        A = a;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.j2rk.magiccanvas.doodling
+package com.j2rk.magiccanvas.feature.doodling
 
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
@@ -127,8 +127,13 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
     }
 
     fun processEventDown(event: MotionEvent) {
-        when (paintType) {
-            PaintType.PEN -> paints!!.add(Pen(screenHeight, surface))
+        paints?.let {
+            when (paintType) {
+                PaintType.PEN -> it.add(Pen(screenHeight, surface))
+                PaintType.MARKER -> it.add(Marker(screenHeight, surface))
+                PaintType.ERASER -> it.add(Pen(screenHeight, surface))
+                else -> it.add(Pen(screenHeight, surface)) // FIXME
+            }
         }
     }
 
@@ -143,7 +148,9 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
                 )
 
                 when (val lastPaint = paints!!.last()) {
-                    is Pen -> lastPaint.addPoint(meshPoint.point, ColorV4(0f, 0f, 1f, 1f))
+                    is Pen -> lastPaint.addPoint(meshPoint.point, ColorV4(1f, 0f, 0f, 1f))
+                    is Marker -> lastPaint.addPoint(meshPoint.point, ColorV4(0f, 0f, 1f, 1f))
+                    is Pen -> lastPaint.addPoint(meshPoint.point, ColorV4(1f, 1f, 1f, 1f))  // FIXME
                 }
             }
         }
