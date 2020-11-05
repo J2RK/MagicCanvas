@@ -7,10 +7,12 @@ public class CustomShader {
     public static final String vs_mouseSwipe =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 vPosition;" +
+                    "uniform float pointSize;" +
                     "attribute vec4 a_color;" +
                     "varying vec4 v_color;" +
                     "void main() {" +
                     "  gl_Position = uMVPMatrix * vPosition;" +
+                    "  gl_PointSize = pointSize;" +
                     "  v_color = a_color;" +
                     "}";
     public static final String fs_mouseSwipe =
