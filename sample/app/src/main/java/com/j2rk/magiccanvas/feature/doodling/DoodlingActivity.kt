@@ -2,17 +2,18 @@ package com.j2rk.magiccanvas.feature.doodling
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.j2rk.magiccanvas.databinding.ActivityCanvasBinding
+import com.j2rk.magiccanvas.databinding.ActivityDoodlingBinding
+
 
 import com.j2rk.magiccanvas.feature.doodling.paint.PaintType
 
 
-class MagicCanvasActivity : AppCompatActivity() {
+class DoodlingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityCanvasBinding.inflate(layoutInflater)
+        val binding = ActivityDoodlingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.penButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.PEN) }

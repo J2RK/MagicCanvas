@@ -23,9 +23,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".feature.doodling.MagicCanvasActivity" />
+        <activity android:name=".feature.magiccanvas.MagicCanvasActivity" />
+
+        <activity android:name=".feature.doodling.DoodlingActivity" />
 
         <activity android:name=".feature.sticker.StickerActivity" />
+
 
     </application>
 
