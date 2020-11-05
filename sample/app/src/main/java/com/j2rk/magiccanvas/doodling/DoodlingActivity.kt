@@ -17,8 +17,6 @@ class DoodlingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.penButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.PEN) }
-        binding.swipeMeshButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.SWIPE_MESH) }
-        binding.eraserButton.setOnClickListener { binding.glSurface.setPaintType(PaintType.ERASER) }
         binding.clearButton.setOnClickListener { binding.glSurface.clearAll() }
     }
 }

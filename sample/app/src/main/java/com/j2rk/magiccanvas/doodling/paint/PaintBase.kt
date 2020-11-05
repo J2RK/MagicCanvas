@@ -13,13 +13,10 @@ abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface
     var meshPointQueue: ConcurrentLinkedQueue<MeshPoint> = ConcurrentLinkedQueue()
     var indices = IntArray(0)
     var colorArray = FloatArray(0)
-
     var segments: ArrayList<MeshPoint> = ArrayList()
-
     var swipeBuffer: FloatBuffer = ByteBuffer.allocateDirect(0).asFloatBuffer()
     var indexBuffer: IntBuffer = ByteBuffer.allocateDirect(0).asIntBuffer()
     var colorBuffer: FloatBuffer = ByteBuffer.allocateDirect(0).asFloatBuffer()
-
     var smoother = Smoother()
     var strokeThickness = 40
 
