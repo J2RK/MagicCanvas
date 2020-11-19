@@ -1,15 +1,11 @@
-package com.j2rk.magiccanvas.feature.doodling
+package com.j2rk.magiccanvas.doodling
 
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
 import android.view.MotionEvent
-import com.j2rk.magiccanvas.doodling.*
-import com.j2rk.magiccanvas.doodling.paint.PaintBase
-import com.j2rk.magiccanvas.doodling.paint.PaintType
-import com.j2rk.magiccanvas.doodling.paint.Pen
-import com.j2rk.magiccanvas.feature.doodling.paint.Marker
+import com.j2rk.magiccanvas.doodling.paint.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.microedition.khronos.egl.EGLConfig
@@ -111,12 +107,12 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
         GLES20.glClearColor(1f, 1f, 1f, 1f)
         CustomShader.sp_mouse_swipe = GLES20.glCreateProgram()
         val mouseMeshVertexShader = CustomShader.loadShader(
-                GLES20.GL_VERTEX_SHADER,
-                CustomShader.vs_mouseSwipe
+            GLES20.GL_VERTEX_SHADER,
+            CustomShader.vs_mouseSwipe
         )
         val mouseMeshFragmentShader = CustomShader.loadShader(
-                GLES20.GL_FRAGMENT_SHADER,
-                CustomShader.fs_mouseSwipe
+            GLES20.GL_FRAGMENT_SHADER,
+            CustomShader.fs_mouseSwipe
         )
         GLES20.glAttachShader(CustomShader.sp_mouse_swipe, mouseMeshVertexShader)
         GLES20.glAttachShader(CustomShader.sp_mouse_swipe, mouseMeshFragmentShader)
@@ -131,8 +127,8 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
             when (paintType) {
                 PaintType.PEN -> it.add(Pen(screenHeight, surface))
                 PaintType.MARKER -> it.add(Marker(screenHeight, surface))
-                PaintType.ERASER -> it.add(Pen(screenHeight, surface))
-                else -> it.add(Pen(screenHeight, surface)) // FIXME
+                PaintType.BRUSH -> it.add(Brush(screenHeight, surface))
+                else -> {}
             }
         }
     }
@@ -143,14 +139,14 @@ class CustomGLRenderer(private var surface: CustomGLSurface) : GLSurfaceView.Ren
             if (event.findPointerIndex(0) != -1) {
                 val pointerIndex = event.findPointerIndex(0)
                 val meshPoint = MeshPoint(
-                        event.getX(pointerIndex).toDouble(),
-                        event.getY(pointerIndex).toDouble()
+                    event.getX(pointerIndex).toDouble(),
+                    event.getY(pointerIndex).toDouble()
                 )
 
                 when (val lastPaint = paints!!.last()) {
                     is Pen -> lastPaint.addPoint(meshPoint.point, ColorV4(1f, 0f, 0f, 1f))
                     is Marker -> lastPaint.addPoint(meshPoint.point, ColorV4(0f, 0f, 1f, 1f))
-                    is Pen -> lastPaint.addPoint(meshPoint.point, ColorV4(1f, 1f, 1f, 1f))  // FIXME
+                    is Brush -> lastPaint.addPoint(meshPoint.point, ColorV4(0f, 1f, 0f, 1f))
                 }
             }
         }

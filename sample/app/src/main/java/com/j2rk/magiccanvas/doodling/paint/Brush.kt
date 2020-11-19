@@ -1,10 +1,12 @@
 package com.j2rk.magiccanvas.doodling.paint
 
 import com.j2rk.magiccanvas.doodling.CustomGLSurface
+import com.j2rk.magiccanvas.doodling.IOpenGLObject
 import com.j2rk.magiccanvas.doodling.MeshPoint
 import com.j2rk.magiccanvas.doodling.Vector
+import kotlin.collections.ArrayList
 
-class Marker(screenHeight: Float, surface: CustomGLSurface) : PaintBase(screenHeight, surface) {
+class Brush(screenHeight: Float, surface: CustomGLSurface) : PaintBase(screenHeight, surface), IOpenGLObject {
 
     override fun calPoints() {
         glSurface.queueEvent {
@@ -18,29 +20,33 @@ class Marker(screenHeight: Float, surface: CustomGLSurface) : PaintBase(screenHe
                 var D: MeshPoint?
                 for (i in out.indices) {
                     if (i == 0 || i == out.size - 1) {
-                        segments.add(MeshPoint(convertToGLCoords(out[i].point), out[i].color, out[i].age))
+                        val meshPoint = out[i]
+                        segments.add(MeshPoint(
+                            convertToGLCoords(meshPoint.point),
+                            out[i].color,
+                            meshPoint.age)
+                        )
                     } else {
                         val currentMeshPoint = out[i]
                         val nextMeshPoint = out[i + 1]
                         A = currentMeshPoint.point
                         B = nextMeshPoint.point
                         val perpV = Vector.calNorPerpV(A, B)
+                        val scaleFactor = (1 - Vector.dist(A, B) * 30 / screenHeight)
                         C = MeshPoint(
                                 convertToGLCoords(
-                                        Vector.add(B, Vector.scale(perpV, strokeThickness.toDouble()))
+                                    Vector.add(B, Vector.scale(perpV, strokeThickness * scaleFactor))
                                 ),
                                 nextMeshPoint.color,
                                 nextMeshPoint.age
                         )
                         D = MeshPoint(
                                 convertToGLCoords(
-                                        Vector.sub(B, Vector.scale(perpV, strokeThickness.toDouble()))
+                                    Vector.sub(B, Vector.scale(perpV, strokeThickness * scaleFactor))
                                 ),
                                 nextMeshPoint.color,
                                 nextMeshPoint.age
                         )
-                        C.color.setAlpha(0.5f)
-                        D.color.setAlpha(0.5f)
                         segments.add(C)
                         segments.add(D)
                     }

@@ -11,10 +11,11 @@ import java.util.concurrent.ConcurrentLinkedQueue
 abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface) : IOpenGLObject {
 
     var meshPointQueue: ConcurrentLinkedQueue<MeshPoint> = ConcurrentLinkedQueue()
-    var indices = IntArray(0)
+    var indexArray = IntArray(0)
     var colorArray = FloatArray(0)
     var segments: ArrayList<MeshPoint> = ArrayList()
-    var swipeBuffer: FloatBuffer = ByteBuffer.allocateDirect(0).asFloatBuffer()
+
+    var vertexBuffer: FloatBuffer = ByteBuffer.allocateDirect(0).asFloatBuffer()
     var indexBuffer: IntBuffer = ByteBuffer.allocateDirect(0).asIntBuffer()
     var colorBuffer: FloatBuffer = ByteBuffer.allocateDirect(0).asFloatBuffer()
     var smoother = Smoother()
@@ -37,13 +38,16 @@ abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface
 
         val mPositionHandle = GLES20.glGetAttribLocation(CustomShader.sp_mouse_swipe, "vPosition")
         GLES20.glEnableVertexAttribArray(mPositionHandle)
-        GLES20.glVertexAttribPointer(mPositionHandle, 2, GLES20.GL_FLOAT, false, 0, swipeBuffer)
+        GLES20.glVertexAttribPointer(mPositionHandle, 2, GLES20.GL_FLOAT, false, 0, vertexBuffer)
 
         val colorHandle = GLES20.glGetAttribLocation(CustomShader.sp_mouse_swipe, "a_color")
         GLES20.glEnableVertexAttribArray(colorHandle)
         GLES20.glVertexAttribPointer(colorHandle, 4, GLES20.GL_FLOAT, false, 0, colorBuffer)
 
-        GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, indices.size, GLES20.GL_UNSIGNED_INT, indexBuffer)
+        val pointSizeHandle = GLES20.glGetUniformLocation(CustomShader.sp_mouse_swipe, "pointSize")
+        GLES20.glUniform1f(pointSizeHandle, 1f)
+
+        GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, indexArray.size, GLES20.GL_UNSIGNED_INT, indexBuffer)
         GLES20.glDisableVertexAttribArray(mPositionHandle)
     }
 
@@ -59,24 +63,24 @@ abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface
     }
 
     fun setupBuffers() {
-        val floatArray = genVertexArray()
-        indices = IntArray(segments.size)
+        val vertexArray = genVertexArray()
+        indexArray = IntArray(segments.size)
         colorArray = FloatArray(segments.size * 4)
         var j = 0
         for (i in segments.indices) {
             val segment = segments[i]
-            indices[i] = i
+            indexArray[i] = i
             colorArray[j] = segment.color.R
             colorArray[j + 1] = segment.color.G
             colorArray[j + 2] = segment.color.B
             colorArray[j + 3] = segment.color.A
             j += 4
         }
-        val bb = ByteBuffer.allocateDirect(floatArray.size * 4)
+        val bb = ByteBuffer.allocateDirect(vertexArray.size * 4)
         bb.order(ByteOrder.nativeOrder())
-        swipeBuffer = bb.asFloatBuffer()
-        swipeBuffer.put(floatArray)
-        swipeBuffer.position(0)
+        vertexBuffer = bb.asFloatBuffer()
+        vertexBuffer.put(vertexArray)
+        vertexBuffer.position(0)
 
         val cb = ByteBuffer.allocateDirect(colorArray.size * 4)
         cb.order(ByteOrder.nativeOrder())
@@ -84,10 +88,10 @@ abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface
         colorBuffer.put(colorArray)
         colorBuffer.position(0)
 
-        val dlb = ByteBuffer.allocateDirect(indices.size * 4)
+        val dlb = ByteBuffer.allocateDirect(indexArray.size * 4)
         dlb.order(ByteOrder.nativeOrder())
         indexBuffer = dlb.asIntBuffer()
-        indexBuffer.put(indices)
+        indexBuffer.put(indexArray)
         indexBuffer.position(0)
     }
 
@@ -95,13 +99,13 @@ abstract class PaintBase(var screenHeight: Float, var glSurface: CustomGLSurface
         addPoint(MeshPoint(point!!, color!!, 1f))
     }
 
-    fun addPoint(meshPoint: MeshPoint?) {
+    private fun addPoint(newPoint: MeshPoint?) {
         if (meshPointQueue.isNotEmpty()) {
             for (meshPoint in meshPointQueue) {
                 meshPoint.getOlder()
             }
         }
-        meshPointQueue.add(meshPoint)
+        meshPointQueue.add(newPoint)
     }
 
     fun clearAllPoint() {

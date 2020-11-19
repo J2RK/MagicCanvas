@@ -11,12 +11,12 @@ public class ColorV4 {
         A = a;
     }
 
-    public ColorV4 gradientWhite(float scaleFactor) {
+    public ColorV4 gradientTransparent(float scaleFactor) {
         return new ColorV4(
-                1 - R * scaleFactor,
-                1 - G * scaleFactor,
-                1 - B * scaleFactor,
-                A
+                R,
+                G,
+                B,
+                A * scaleFactor
         );
     }
 
