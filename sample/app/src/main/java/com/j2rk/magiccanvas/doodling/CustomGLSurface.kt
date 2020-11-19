@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView
 import android.util.AttributeSet
 import android.view.MotionEvent
 import com.j2rk.magiccanvas.doodling.paint.PaintType
+import com.j2rk.magiccanvas.feature.doodling.CustomGLRenderer
 
 class CustomGLSurface(context: Context?, attrs: AttributeSet?) : GLSurfaceView(context, attrs) {
 

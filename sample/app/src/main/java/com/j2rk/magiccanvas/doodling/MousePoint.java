@@ -1,6 +1,6 @@
 package com.j2rk.magiccanvas.doodling;
 
-class MousePoint {
+public class MousePoint {
 
     private float x;
     private float y;

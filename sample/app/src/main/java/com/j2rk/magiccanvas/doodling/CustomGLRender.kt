@@ -5,7 +5,11 @@ import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
 import android.view.MotionEvent
-import com.j2rk.magiccanvas.doodling.paint.*
+import com.j2rk.magiccanvas.doodling.*
+import com.j2rk.magiccanvas.doodling.paint.PaintBase
+import com.j2rk.magiccanvas.doodling.paint.PaintType
+import com.j2rk.magiccanvas.doodling.paint.Pen
+import com.j2rk.magiccanvas.feature.doodling.paint.Marker
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.microedition.khronos.egl.EGLConfig
